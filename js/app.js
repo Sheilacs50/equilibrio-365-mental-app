@@ -194,6 +194,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.body.appendChild(moodBox);
 
+        // =====================
+// GESTO ARRASTAR PARA FECHAR
+// =====================
+
+const sheet = moodBox.querySelector("div > div");
+
+let startY = 0;
+let currentY = 0;
+let isDragging = false;
+
+sheet.addEventListener("touchstart", (e)=>{
+  startY = e.touches[0].clientY;
+  isDragging = true;
+});
+
+sheet.addEventListener("touchmove", (e)=>{
+  if(!isDragging) return;
+
+  currentY = e.touches[0].clientY;
+  const diff = currentY - startY;
+
+  if(diff > 0){
+    sheet.style.transform = `translateY(${diff}px)`;
+  }
+});
+
+sheet.addEventListener("touchend", ()=>{
+  isDragging = false;
+
+  if(currentY - startY > 80){
+    moodBox.remove();
+  }else{
+    sheet.style.transform = "translateY(0)";
+  }
+});
+
         // estiliza botões
         moodBox.querySelectorAll(".moodOption").forEach(btn=>{
           btn.style.width = "100%";

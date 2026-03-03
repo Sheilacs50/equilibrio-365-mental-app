@@ -194,9 +194,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.body.appendChild(moodBox);
 
-        / =====================
-// GESTO
+        // =====================
+// SWIPE DOWN (ARRASTAR) PARA FECHAR - FIX
+// =====================
 
+// overlay = fundo escuro, sheet = caixa azul
+const overlay = moodBox.firstElementChild;     // o <div style="position:fixed...">
+const sheet   = overlay.lastElementChild;      // o <div style="width:100%...">
+
+let startY = 0;
+let dragging = false;
+
+sheet.style.touchAction = "none"; // ajuda no Android
+
+sheet.addEventListener("touchstart", (e) => {
+  startY = e.touches[0].clientY;
+  dragging = true;
+  sheet.style.transition = "none";
+}, { passive: true });
+
+sheet.addEventListener("touchmove", (e) => {
+  if (!dragging) return;
+
+  const y = e.touches[0].clientY;
+  const diff = y - startY;
+
+  // só arrasta pra baixo
+  if (diff > 0) {
+    // impede o scroll “roubar” o gesto
+    e.preventDefault();
+    sheet.style.transform = `translateY(${diff}px)`;
+  }
+}, { passive: false });
+
+sheet.addEventListener("touchend", (e) => {
+  if (!dragging) return;
+  dragging = false;
+
+  const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : startY;
+  const diff = endY - startY;
+
+  // se puxar bastante, fecha
+  if (diff > 90) {
+    moodBox.remove();
+    return;
+  }
+
+  // senão, volta suave
+  sheet.style.transition = "transform .18s ease";
+  sheet.style.transform = "translateY(0)";
+}, { passive: true });
+
+// tocar fora fecha também (opcional e bem natural)
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) moodBox.remove();
+});
 sheet.addEventListener("touchend", ()=>{
   isDragging = false;
 

@@ -144,3 +144,42 @@ textarea{
   font-family: inherit;
   line-height: 1.35;
 }
+/* =========================
+   IOS FEEL: SHEET MAIS MACIO
+========================= */
+
+/* melhora a fluidez */
+#moodSheet > div{
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* animação com "mola" (cubic-bezier) */
+#moodSheet > div > div{
+  animation: sheetUpIOS .38s cubic-bezier(.2,.9,.2,1);
+  transform-origin: bottom center;
+}
+
+@keyframes sheetUpIOS{
+  0%   { transform: translateY(28px) scale(0.98); opacity: 0.7; }
+  60%  { transform: translateY(-4px) scale(1.01); opacity: 1; }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* botões do sheet mais "touch" */
+#moodSheet .moodOption{
+  transition: transform .12s ease, background .12s ease;
+}
+#moodSheet .moodOption:active{
+  transform: scale(0.99);
+  background: rgba(60,179,113,0.18) !important;
+}
+
+/* cancelar com efeito */
+#cancelMood{
+  transition: transform .12s ease, background .12s ease;
+}
+#cancelMood:active{
+  transform: scale(0.99);
+  background: rgba(255,255,255,0.12) !important;
+}

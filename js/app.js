@@ -61,27 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  function renderAgenda(){
-    const today = new Date();
-    const monthName = today.toLocaleDateString("pt-BR",{month:"long"});
-    const year = today.getFullYear();
-
-    let daysHTML = "";
-
-    for(let i=1;i<=30;i++){
-      daysHTML += `
-        <div style="
-          padding:14px;
-          border-bottom:1px solid rgba(255,255,255,0.1);
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-        ">
-          <span>Dia ${i}</span>
-          <span>🙂</span>
-        </div>
-      `;
-    }
+  
 
     app.innerHTML = `
       <div class="container">

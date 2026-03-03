@@ -147,16 +147,54 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   document.querySelectorAll(".dayItem").forEach(item=>{
-    item.onclick = () => {
-      const date = item.dataset.date;
-      const emoji = prompt("Escolha um humor: 😊 😌 😐 😔 😡");
-      if(!emoji) return;
+  item.onclick = () => {
 
-      savedHumor[date] = emoji;
-      localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
+    const date = item.dataset.date;
 
-      renderAgenda();
-    };
-  });
+    const moodBox = document.createElement("div");
+    moodBox.innerHTML = `
+      <div style="
+        position:fixed;
+        bottom:0;
+        left:0;
+        width:100%;
+        background:#0b2a66;
+        padding:20px;
+        border-top-left-radius:20px;
+        border-top-right-radius:20px;
+        box-shadow:0 -10px 40px rgba(0,0,0,0.5);
+      ">
+        <div style="text-align:center; margin-bottom:12px; font-weight:bold;">
+          Escolha seu humor
+        </div>
+
+        <div class="moodOption" data-emoji="😊">😊 Feliz</div>
+        <div class="moodOption" data-emoji="😌">😌 Calma</div>
+        <div class="moodOption" data-emoji="😐">😐 Neutra</div>
+        <div class="moodOption" data-emoji="😔">😔 Triste</div>
+        <div class="moodOption" data-emoji="😡">😡 Irritada</div>
+      </div>
+    `;
+
+    document.body.appendChild(moodBox);
+
+    document.querySelectorAll(".moodOption").forEach(option=>{
+      option.style.padding = "12px";
+      option.style.marginBottom = "8px";
+      option.style.borderRadius = "12px";
+      option.style.background = "rgba(255,255,255,0.08)";
+      option.style.cursor = "pointer";
+
+      option.onclick = ()=>{
+        const emoji = option.dataset.emoji;
+        savedHumor[date] = emoji;
+        localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
+        document.body.removeChild(moodBox);
+        renderAgenda();
+      };
+    });
+
+  };
+});
 
 }

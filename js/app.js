@@ -156,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
               border-top-right-radius:20px;
               box-shadow:0 -10px 40px rgba(0,0,0,0.5);
             ">
+            <div class="sheetHandle"></div>
               <div style="text-align:center; margin-bottom:12px; font-weight:900;">
                 Escolha seu humor
               </div>

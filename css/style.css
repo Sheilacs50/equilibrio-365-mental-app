@@ -80,4 +80,66 @@ button{
 
 button:hover{
   transform: scale(1.02);
+}/* =========================
+   PREMIUM: ANIMAÇÕES SUAVES
+========================= */
+
+/* Suaviza tudo */
+*{
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container{
+  animation: fadeInUp .35s ease;
+}
+
+@keyframes fadeInUp{
+  from{ opacity:0; transform: translateY(10px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+/* Botões com “press” */
+button:active{
+  transform: scale(0.98);
+}
+
+/* Itens da agenda com hover/press */
+.dayItem{
+  transition: transform .12s ease, background .12s ease;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.dayItem:active{
+  transform: scale(0.99);
+}
+
+/* Scroll mais agradável */
+.container > div[style*="overflow-y"]{
+  scroll-behavior: smooth;
+}
+
+/* ===== Bottom sheet (moodSheet) animado ===== */
+#moodSheet > div{
+  animation: sheetFade .18s ease;
+}
+
+@keyframes sheetFade{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
+
+/* a “caixa” de baixo (sheet) desliza */
+#moodSheet > div > div{
+  animation: sheetUp .22s ease;
+}
+
+@keyframes sheetUp{
+  from{ transform: translateY(18px); opacity:0.85; }
+  to{ transform: translateY(0); opacity:1; }
+}
+
+/* textarea mais bonito */
+textarea{
+  font-family: inherit;
+  line-height: 1.35;
 }

@@ -1,4 +1,4 @@
-no udocument.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
   const app = document.getElementById("app");
   const STORAGE_KEY = "equilibrio365_pin";
@@ -69,20 +69,15 @@ no udocument.addEventListener("DOMContentLoaded", () => {
     const monthName = today.toLocaleDateString("pt-BR",{month:"long"});
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    const note = document.getElementById("dayNote").value;
+    const savedHumor = JSON.parse(localStorage.getItem(HUMOR_KEY) || "{}");
 
-savedHumor[date] = {
-  mood: emoji,
-  note: note
-};
-
-localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
     let daysHTML = "";
 
     for(let i=1; i<=daysInMonth; i++){
 
       const dateKey = `${year}-${String(month+1).padStart(2,"0")}-${String(i).padStart(2,"0")}`;
       const isToday = i === today.getDate();
+
       const mood = savedHumor[dateKey]?.mood || "🙂";
 
       daysHTML += `
@@ -102,20 +97,34 @@ localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
     }
 
     app.innerHTML = `
-    document.getElementById("logoutBtn").onclick = () => {
-  renderLogin();
-};
       <div class="container">
         <div style="text-align:right; margin-bottom:8px;">
-      <button id="logoutBtn" style="
-        width:auto;
-        padding:6px 12px;
-        font-size:12px;
-        border-radius:10px;
-      ">Sair</button>
-    </div>
+          <button id="logoutBtn" style="
+            width:auto;
+            padding:6px 12px;
+            font-size:12px;
+            border-radius:10px;
+          ">Sair</button>
+        </div>
+
+        <div class="logo">
+          <h1>🌿 Equilíbrio <span>365</span></h1>
+          <p style="margin-top:6px; opacity:.8;">${monthName} ${year}</p>
+          <p style="opacity:.75; margin-top:4px; font-size:13px;">
+            Dias registrados: ${Object.keys(savedHumor).length}
+          </p>
+        </div>
+
+        <div style="max-height:420px; overflow-y:auto; margin-top:10px;">
+          ${daysHTML}
+        </div>
       </div>
     `;
+
+    // ✅ botão sair (AGORA está no lugar certo)
+    document.getElementById("logoutBtn").onclick = () => {
+      renderLogin();
+    };
 
     document.querySelectorAll(".dayItem").forEach(item=>{
       item.onclick = () => {
@@ -127,6 +136,8 @@ localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
 
         const moodBox = document.createElement("div");
         moodBox.id = "moodSheet";
+
+        const existingNote = savedHumor[date]?.note || "";
 
         moodBox.innerHTML = `
           <div style="
@@ -154,17 +165,17 @@ localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
               <button class="moodOption" data-emoji="😐" type="button">😐 Neutra</button>
               <button class="moodOption" data-emoji="😔" type="button">😔 Triste</button>
               <button class="moodOption" data-emoji="😡" type="button">😡 Irritada</button>
-              <textarea id="dayNote" placeholder="Escreva uma nota sobre o seu dia..." 
-style="
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.2);
-  background:rgba(255,255,255,0.08);
-  color:white;
-  resize:none;
-"></textarea>
+
+              <textarea id="dayNote" placeholder="Escreva uma nota sobre o seu dia..." style="
+                width:100%;
+                margin-top:10px;
+                padding:10px;
+                border-radius:12px;
+                border:1px solid rgba(255,255,255,0.2);
+                background:rgba(255,255,255,0.08);
+                color:white;
+                resize:none;
+              ">${existingNote}</textarea>
 
               <button id="cancelMood" type="button" style="
                 margin-top:10px;
@@ -176,13 +187,13 @@ style="
                 color:white;
                 font-weight:800;
               ">Cancelar</button>
-
             </div>
           </div>
         `;
 
         document.body.appendChild(moodBox);
 
+        // estiliza botões
         moodBox.querySelectorAll(".moodOption").forEach(btn=>{
           btn.style.width = "100%";
           btn.style.padding = "12px";
@@ -196,8 +207,11 @@ style="
 
           btn.onclick = ()=>{
             const emoji = btn.dataset.emoji;
-            savedHumor[date] = emoji;
+            const note = document.getElementById("dayNote").value;
+
+            savedHumor[date] = { mood: emoji, note: note };
             localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
+
             moodBox.remove();
             renderAgenda();
           };

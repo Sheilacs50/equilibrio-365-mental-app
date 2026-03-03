@@ -69,7 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const monthName = today.toLocaleDateString("pt-BR",{month:"long"});
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    const savedHumor = JSON.parse(localStorage.getItem(HUMOR_KEY) || "{}");
+    const note = document.getElementById("dayNote").value;
+
+savedHumor[date] = {
+  mood: emoji,
+  note: note
+};
+
+localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
     let daysHTML = "";
 
     for(let i=1; i<=daysInMonth; i++){

@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const app = document.getElementById("app");
-
   const STORAGE_KEY = "equilibrio365_pin";
+  const HUMOR_KEY = "equilibrio365_humor";
 
   function isRegistered(){
     return !!localStorage.getItem(STORAGE_KEY);
@@ -60,165 +60,40 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
   }
-function renderAgenda(){
-  const today = new Date();
-  const month = today.getMonth();
-  const year = today.getFullYear();
-  const monthName = today.toLocaleDateString("pt-BR",{month:"long"});
 
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  function renderAgenda(){
 
-  const HUMOR_KEY = "equilibrio365_humor";
-  const savedHumor = JSON.parse(localStorage.getItem(HUMOR_KEY) || "{}");
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    const monthName = today.toLocaleDateString("pt-BR",{month:"long"});
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  let daysHTML = "";
+    const savedHumor = JSON.parse(localStorage.getItem(HUMOR_KEY) || "{}");
 
-  for(let i=1; i<=daysInMonth; i++){
-    const dateKey = `${year}-${String(month+1).padStart(2,"0")}-${String(i).padStart(2,"0")}`;
-    const isToday = i === today.getDate();
-    const mood = savedHumor[dateKey] || "🙂";
+    let daysHTML = "";
 
-    daysHTML += `
-      <div class="dayItem" data-date="${dateKey}" style="
-        padding:14px;
-        border-bottom:1px solid rgba(255,255,255,0.1);
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        background:${isToday ? "rgba(60,179,113,0.15)" : "transparent"};
-        cursor:pointer;
-      ">
-        <span>Dia ${i}</span>
-        <span>${mood}</span>
-      </div>
-    `;
-  }
+    for(let i=1; i<=daysInMonth; i++){
 
-  app.innerHTML = `
-    <div class="container">
-      <div class="logo">
-        <h1>🌿 Equilíbrio <span>365</span></h1>
-        <p style="margin-top:6px; opacity:.8;">${monthName} ${year}</p>
-      </div>
+      const dateKey = `${year}-${String(month+1).padStart(2,"0")}-${String(i).padStart(2,"0")}`;
+      const isToday = i === today.getDate();
+      const mood = savedHumor[dateKey] || "🙂";
 
-      <div style="max-height:420px; overflow-y:auto; margin-top:10px;">
-        ${daysHTML}
-      </div>
-    </div>
-  `;
-
-  document.querySelectorAll(".dayItem").forEach(item=>{
-    item.onclick = () => {
-      const date = item.dataset.date;
-
-      // remove popup antigo se existir
-      const old = document.getElementById("moodSheet");
-      if(old) old.remove();
-
-      const moodBox = document.createElement("div");
-      moodBox.id = "moodSheet";
-      moodBox.innerHTML = `
-        <div style="
-          position:fixed;
-          inset:0;
-          background:rgba(0,0,0,0.35);
+      daysHTML += `
+        <div class="dayItem" data-date="${dateKey}" style="
+          padding:14px;
+          border-bottom:1px solid rgba(255,255,255,0.1);
           display:flex;
-          align-items:flex-end;
-          z-index:9999;
+          justify-content:space-between;
+          align-items:center;
+          background:${isToday ? "rgba(60,179,113,0.15)" : "transparent"};
+          cursor:pointer;
         ">
-          <div style="
-            width:100%;
-            background:#0b2a66;
-            padding:18px;
-            border-top-left-radius:20px;
-            border-top-right-radius:20px;
-            box-shadow:0 -10px 40px rgba(0,0,0,0.5);
-          ">
-            <div style="text-align:center; margin-bottom:12px; font-weight:900;">
-              Escolha seu humor
-            </div>
-
-            <button class="moodOption" data-emoji="😊" type="button">😊 Feliz</button>
-            <button class="moodOption" data-emoji="😌" type="button">😌 Calma</button>
-            <button class="moodOption" data-emoji="😐" type="button">😐 Neutra</button>
-            <button class="moodOption" data-emoji="😔" type="button">😔 Triste</button>
-            <button class="moodOption" data-emoji="😡" type="button">😡 Irritada</button>
-
-            <button id="cancelMood" type="button" style="
-              margin-top:10px;
-              width:100%;
-              padding:12px;
-              border-radius:14px;
-              border:1px solid rgba(255,255,255,0.18);
-              background:rgba(255,255,255,0.08);
-              color:white;
-              font-weight:800;
-            ">Cancelar</button>
-          </div>
+          <span>Dia ${i}</span>
+          <span>${mood}</span>
         </div>
       `;
-      document.body.appendChild(moodBox);
-
-      // estiliza botões internos (pra não pegar o button geral do CSS)
-      moodBox.querySelectorAll(".moodOption").forEach(btn=>{
-        btn.style.width = "100%";
-        btn.style.padding = "12px";
-        btn.style.marginBottom = "8px";
-        btn.style.borderRadius = "14px";
-        btn.style.border = "1px solid rgba(255,255,255,0.18)";
-        btn.style.background = "rgba(255,255,255,0.08)";
-        btn.style.color = "white";
-        btn.style.fontWeight = "900";
-        btn.style.cursor = "pointer";
-
-        btn.onclick = ()=>{
-          const emoji = btn.dataset.emoji;
-          savedHumor[date] = emoji;
-          localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
-          moodBox.remove();
-          renderAgenda();
-        };
-      });
-
-      moodBox.querySelector("#cancelMood").onclick = ()=> moodBox.remove();
-
-      // clicar fora fecha
-      moodBox.firstElementChild.onclick = (e)=>{
-        if(e.target === moodBox.firstElementChild) moodBox.remove();
-      };
-    };
-  });
-}
-  
-  app.innerHTML = `
-    <div class="container">
-      <div class="logo">
-        <h1>🌿 Equilíbrio <span>365</span></h1>
-        <p style="margin-top:6px; opacity:.8;">
-          ${monthName} ${year}
-        </p>
-      </div>
-
-      <div style="max-height:420px; overflow-y:auto; margin-top:10px;">
-        ${daysHTML}
-      </div>
-    </div>
-  `;
-
-  document.querySelectorAll(".dayItem").forEach(item=>{
-    item.onclick = () => {
-      const date = item.dataset.date;
-      const emoji = prompt("Escolha um humor: 😊 😌 😐 😔 😡");
-      if(!emoji) return;
-
-      savedHumor[date] = emoji;
-      localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
-
-      renderAgenda();
-    };
-  });
-
-}
+    }
 
     app.innerHTML = `
       <div class="container">
@@ -229,21 +104,52 @@ function renderAgenda(){
           </p>
         </div>
 
-        <div style="
-          max-height:420px;
-          overflow-y:auto;
-          margin-top:10px;
-        ">
+        <div style="max-height:420px; overflow-y:auto; margin-top:10px;">
           ${daysHTML}
         </div>
       </div>
     `;
-  }
 
-  if(!isRegistered()){
-    renderSetup();
-  }else{
-    renderLogin();
-  }
+    document.querySelectorAll(".dayItem").forEach(item=>{
+      item.onclick = () => {
 
-});
+        const date = item.dataset.date;
+
+        const old = document.getElementById("moodSheet");
+        if(old) old.remove();
+
+        const moodBox = document.createElement("div");
+        moodBox.id = "moodSheet";
+
+        moodBox.innerHTML = `
+          <div style="
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.35);
+            display:flex;
+            align-items:flex-end;
+            z-index:9999;
+          ">
+            <div style="
+              width:100%;
+              background:#0b2a66;
+              padding:18px;
+              border-top-left-radius:20px;
+              border-top-right-radius:20px;
+              box-shadow:0 -10px 40px rgba(0,0,0,0.5);
+            ">
+              <div style="text-align:center; margin-bottom:12px; font-weight:900;">
+                Escolha seu humor
+              </div>
+
+              <button class="moodOption" data-emoji="😊" type="button">😊 Feliz</button>
+              <button class="moodOption" data-emoji="😌" type="button">😌 Calma</button>
+              <button class="moodOption" data-emoji="😐" type="button">😐 Neutra</button>
+              <button class="moodOption" data-emoji="😔" type="button">😔 Triste</button>
+              <button class="moodOption" data-emoji="😡" type="button">😡 Irritada</button>
+
+              <button id="cancelMood" type="button" style="
+                margin-top:10px;
+                width:100%;
+                padding:12px;
+                border-radius:14px

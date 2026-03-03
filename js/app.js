@@ -96,14 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     app.innerHTML = `
       <div class="container">
-        <div class="logo">
-          <h1>🌿 Equilíbrio <span>365</span></h1>
-          <p style="margin-top:6px; opacity:.8;">${monthName} ${year}</p>
-        </div>
-
-        <div style="max-height:420px; overflow-y:auto; margin-top:10px;">
-          ${daysHTML}
-        </div>
+        <div style="text-align:right; margin-bottom:8px;">
+      <button id="logoutBtn" style="
+        width:auto;
+        padding:6px 12px;
+        font-size:12px;
+        border-radius:10px;
+      ">Sair</button>
+    </div>
       </div>
     `;
 

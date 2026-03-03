@@ -95,6 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     app.innerHTML = `
+    document.getElementById("logoutBtn").onclick = () => {
+  renderLogin();
+};
       <div class="container">
         <div style="text-align:right; margin-bottom:8px;">
       <button id="logoutBtn" style="

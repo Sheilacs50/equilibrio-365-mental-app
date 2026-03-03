@@ -147,6 +147,17 @@ document.addEventListener("DOMContentLoaded", () => {
               <button class="moodOption" data-emoji="😐" type="button">😐 Neutra</button>
               <button class="moodOption" data-emoji="😔" type="button">😔 Triste</button>
               <button class="moodOption" data-emoji="😡" type="button">😡 Irritada</button>
+              <textarea id="dayNote" placeholder="Escreva uma nota sobre o seu dia..." 
+style="
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.08);
+  color:white;
+  resize:none;
+"></textarea>
 
               <button id="cancelMood" type="button" style="
                 margin-top:10px;

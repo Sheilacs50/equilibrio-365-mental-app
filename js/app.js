@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+no udocument.addEventListener("DOMContentLoaded", () => {
 
   const app = document.getElementById("app");
   const STORAGE_KEY = "equilibrio365_pin";
@@ -83,7 +83,7 @@ localStorage.setItem(HUMOR_KEY, JSON.stringify(savedHumor));
 
       const dateKey = `${year}-${String(month+1).padStart(2,"0")}-${String(i).padStart(2,"0")}`;
       const isToday = i === today.getDate();
-      const mood = savedHumor[dateKey] || "🙂";
+      const mood = savedHumor[dateKey]?.mood || "🙂";
 
       daysHTML += `
         <div class="dayItem" data-date="${dateKey}" style="

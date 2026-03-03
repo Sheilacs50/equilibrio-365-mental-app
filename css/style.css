@@ -183,3 +183,26 @@ textarea{
   transform: scale(0.99);
   background: rgba(255,255,255,0.12) !important;
 }
+/* =========================
+   IOS DETAILS: HANDLE + SHADOW
+========================= */
+
+.sheetHandle{
+  width: 42px;
+  height: 5px;
+  border-radius: 999px;
+  margin: 0 auto 12px auto;
+  background: rgba(255,255,255,0.28);
+}
+
+/* cantos mais iOS */
+#moodSheet > div > div{
+  border-top-left-radius: 26px !important;
+  border-top-right-radius: 26px !important;
+  box-shadow: 0 -18px 60px rgba(0,0,0,0.55) !important;
+}
+
+/* melhora o “card feel” */
+.container{
+  border-radius: 26px;
+}

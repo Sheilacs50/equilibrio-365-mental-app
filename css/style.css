@@ -179,3 +179,9 @@ textarea{
   color:white;
   resize:none;
 }
+/* Destaque automático do dia de hoje */
+.dayItem.today{
+  border: 1px solid rgba(53,178,107,0.55);
+  background: rgba(53,178,107,0.14);
+  box-shadow: 0 0 0 2px rgba(53,178,107,0.08) inset;
+}

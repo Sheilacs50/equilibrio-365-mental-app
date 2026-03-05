@@ -32,27 +32,24 @@
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
   }
 
-  // Botão de instalar (PWA)
-  let deferredPrompt = null;
-  const installBtn = document.getElementById("installBtn");
+  // PWA install prompt
+  window.__pwa = { deferredPrompt: null, canInstall: false };
 
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
-    deferredPrompt = e;
-    installBtn.style.display = "block";
-  });
+    window.__pwa.deferredPrompt = e;
+    window.__pwa.canInstall = true;
 
-  installBtn.addEventListener("click", async () => {
-    if(!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    installBtn.style.display = "none";
+    // Não mostra aqui — quem decide é o app.js (login)
+    window.dispatchEvent(new Event("pwa-can-install"));
   });
 
   window.addEventListener("appinstalled", () => {
-    installBtn.style.display = "none";
+    window.__pwa.deferredPrompt = null;
+    window.__pwa.canInstall = false;
+    window.dispatchEvent(new Event("pwa-installed"));
   });
 </script>
+
 </body>
 </html>

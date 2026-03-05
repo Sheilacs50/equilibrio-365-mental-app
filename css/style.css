@@ -201,3 +201,19 @@ textarea{
   z-index: 99999;
 }
 .installBtn:active{ transform: translateX(-50%) scale(0.98); }
+.installBtn{
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 18px;
+  width: min(520px, 92vw);
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(53,178,107,0.95);
+  color: #072a1a;
+  font-weight: 900;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+  z-index: 99999;
+}
+.installBtn:active{ transform: translateX(-50%) scale(0.98); }

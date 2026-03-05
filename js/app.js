@@ -120,6 +120,7 @@ window.addEventListener("pwa-installed", () => hideInstallBtn());
         <div id="viewArea"></div>
       </div>
     `;
+    showInstallBtn();
 
     document.getElementById("logoutBtn").onclick = () => renderLogin();
 

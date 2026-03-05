@@ -1,6 +1,37 @@
 // js/app.js
 document.addEventListener("DOMContentLoaded", () => {
   const app = document.getElementById("app");
+  function showInstallBtn(){
+  const btn = document.getElementById("installBtn");
+  if(!btn) return;
+
+  // só mostra se o navegador liberou instalar
+  if(window.__pwa && window.__pwa.canInstall){
+    btn.style.display = "block";
+    btn.onclick = async () => {
+      const p = window.__pwa.deferredPrompt;
+      if(!p) return;
+      p.prompt();
+      await p.userChoice;
+      window.__pwa.deferredPrompt = null;
+      window.__pwa.canInstall = false;
+      btn.style.display = "none";
+    };
+  } else {
+    btn.style.display = "none";
+  }
+}
+
+function hideInstallBtn(){
+  const btn = document.getElementById("installBtn");
+  if(btn) btn.style.display = "none";
+}
+
+// se o navegador liberar instalar, a gente tenta mostrar (mas só vai aparecer no login)
+window.addEventListener("pwa-can-install", () => {
+  // não força mostrar; só deixa pronto
+});
+window.addEventListener("pwa-installed", () => hideInstallBtn());
 
   const KEY_PIN = "equilibrio365_pin";
   const KEY_HUMOR = "equilibrio365_humor"; // {dateKey:{mood:"🙂",note:""}}

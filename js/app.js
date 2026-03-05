@@ -153,8 +153,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const mood = savedHumor[dk]?.mood || "🙂";
       const alarm = alarms[dk] ? `⏰ ${alarms[dk]}` : "🔔";
 
-      html += `
-        <div class="dayItem" data-date="${dk}" style="${isToday ? "background: rgba(53,178,107,0.10);" : ""}">
+      html += `<div class="d
+        <div class="dayItem ${isToday ? "today" : ""}" data-date="${dk}">
           <div class="left">
             <div style="font-weight:900;">${weekday} • Dia ${i}</div>
             <div class="small">${dk}</div>

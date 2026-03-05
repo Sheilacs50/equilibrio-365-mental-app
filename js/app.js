@@ -149,7 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const weekday = UI.weekdayShort(dt);
       const dk = UI.dateKey(dt);
       const isToday = i === today.getDate();
+const isToday = i === today.getDate();
 
+daysHTML += `
+  <div class="dayItem ${isToday ? "today" : ""}" data-date="${dateKey}">
+    ...
+  </div>
+`;
       const mood = savedHumor[dk]?.mood || "🙂";
       const alarm = alarms[dk] ? `⏰ ${alarms[dk]}` : "🔔";
 

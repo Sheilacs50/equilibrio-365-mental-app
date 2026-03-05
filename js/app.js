@@ -154,7 +154,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const alarm = alarms[dk] ? `⏰ ${alarms[dk]}` : "🔔";
 
       html += `<div class="d
-        <div class="dayItem ${isToday ? "today" : ""}" data-date="${dk}">
+        const isToday = i === today.getDate();
+
+daysHTML += `
+  <div class="dayItem ${isToday ? "today" : ""}" data-date="${dateKey}">
+    ...
+  </div>
+`;
           <div class="left">
             <div style="font-weight:900;">${weekday} • Dia ${i}</div>
             <div class="small">${dk}</div>

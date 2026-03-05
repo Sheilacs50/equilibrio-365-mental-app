@@ -149,24 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const weekday = UI.weekdayShort(dt);
       const dk = UI.dateKey(dt);
       const isToday = i === today.getDate();
-const isToday = i === today.getDate();
 
-daysHTML += `
-  <div class="dayItem ${isToday ? "today" : ""}" data-date="${dateKey}">
-    ...
-  </div>
-`;
       const mood = savedHumor[dk]?.mood || "🙂";
       const alarm = alarms[dk] ? `⏰ ${alarms[dk]}` : "🔔";
 
-      html += `<div class="d
-        const isToday = i === today.getDate();
-
-daysHTML += `
-  <div class="dayItem ${isToday ? "today" : ""}" data-date="${dateKey}">
-    ...
-  </div>
-`;
+      html += `
+        <div class="dayItem" data-date="${dk}" style="${isToday ? "background: rgba(53,178,107,0.10);" : ""}">
           <div class="left">
             <div style="font-weight:900;">${weekday} • Dia ${i}</div>
             <div class="small">${dk}</div>

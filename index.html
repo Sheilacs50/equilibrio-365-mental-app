@@ -1,69 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Equilíbrio 365 — Calendário</title>
-<link rel="manifest" href="manifest.webmanifest">
-<style>
-body{margin:0;font-family:sans-serif;background:#0b2a66;color:white}
-header{padding:15px;text-align:center;font-weight:bold}
-.calendar{padding:10px}
-.nav{display:flex;justify-content:space-between;margin-bottom:10px}
-button{background:#B08A2E;border:none;padding:8px 12px;color:white;border-radius:8px}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.day{padding:10px;background:rgba(255,255,255,.1);text-align:center;border-radius:6px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equilíbrio 365</title>
+
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./css/style.css" />
 </head>
+
 <body>
-<header>Equilíbrio 365 — Calendário</header>
-<div class="calendar">
-<div class="nav">
-<button onclick="prevMonth()">◀</button>
-<div id="monthYear"></div>
-<button onclick="nextMonth()">▶</button>
-</div>
-<div class="grid" id="calendarGrid"></div>
-</div>
-<script>
-let current = new Date();
+  <div id="app"></div>
 
-function renderCalendar(){
- const grid = document.getElementById("calendarGrid");
- grid.innerHTML="";
- const monthYear = document.getElementById("monthYear");
- const month = current.getMonth();
- const year = current.getFullYear();
- monthYear.innerText = current.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+  <script src="./js/ui.js"></script>
+  <script src="./js/content.js"></script>
+  <script src="./js/app.js"></script>
 
- const firstDay = new Date(year, month, 1).getDay();
- const daysInMonth = new Date(year, month+1, 0).getDate();
-
- for(let i=0;i<firstDay;i++){
-   const empty = document.createElement("div");
-   grid.appendChild(empty);
- }
-
- for(let d=1; d<=daysInMonth; d++){
-   const day = document.createElement("div");
-   day.className="day";
-   day.innerText=d;
-   grid.appendChild(day);
- }
-}
-
-function prevMonth(){
- current.setMonth(current.getMonth()-1);
- renderCalendar();
-}
-
-function nextMonth(){
- current.setMonth(current.getMonth()+1);
- renderCalendar();
-}
-
-renderCalendar();
-</script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+    }
+  </script>
 </body>
 </html>

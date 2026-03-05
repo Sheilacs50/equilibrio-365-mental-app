@@ -148,6 +148,7 @@ window.addEventListener("pwa-installed", () => hideInstallBtn());
 
   // ---------- AGENDA ----------
   function renderAgenda(){
+    hideInstallBtn();
     const today = new Date();
     const y = today.getFullYear();
     const m = today.getMonth();

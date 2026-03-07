@@ -11,15 +11,9 @@
 
 <body>
   <button id="installBtn" class="installBtn" style="display:none;">
-  ⬇️ Instalar Equilíbrio 365
-</button>
+    ⬇️ Instalar Equilíbrio 365
+  </button>
 
-<div id="app"></div>
-  <button id="installBtn" class="installBtn" style="display:none;">
-  ⬇️ Instalar Equilíbrio 365
-</button>
-
-<div id="app"></div>
   <div id="app"></div>
 
   <script src="./js/ui.js"></script>
@@ -27,29 +21,26 @@
   <script src="./js/app.js"></script>
 
   <script>
-  // Service Worker
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
-  }
+    // Service Worker
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+    }
 
-  // PWA install prompt
-  window.__pwa = { deferredPrompt: null, canInstall: false };
+    // PWA install prompt
+    window.__pwa = { deferredPrompt: null, canInstall: false };
 
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    window.__pwa.deferredPrompt = e;
-    window.__pwa.canInstall = true;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      window.__pwa.deferredPrompt = e;
+      window.__pwa.canInstall = true;
+      window.dispatchEvent(new Event("pwa-can-install"));
+    });
 
-    // Não mostra aqui — quem decide é o app.js (login)
-    window.dispatchEvent(new Event("pwa-can-install"));
-  });
-
-  window.addEventListener("appinstalled", () => {
-    window.__pwa.deferredPrompt = null;
-    window.__pwa.canInstall = false;
-    window.dispatchEvent(new Event("pwa-installed"));
-  });
-</script>
-
+    window.addEventListener("appinstalled", () => {
+      window.__pwa.deferredPrompt = null;
+      window.__pwa.canInstall = false;
+      window.dispatchEvent(new Event("pwa-installed"));
+    });
+  </script>
 </body>
 </html>
